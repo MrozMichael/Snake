@@ -14,7 +14,7 @@ public class Snake {
     }
 
     public void grow(){
-        body.add(node);
+        body.add(node); //todo:node should equal previous last node before apple is eaten?
     }
 
     public void setDirection(String direction){
