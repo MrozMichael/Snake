@@ -51,6 +51,11 @@ public class Game {
         snake.grow(x, y);
         board[y][x] = "0";
     }
+    public void moveSnake(){
+        int[] nextMove = new int[2];
+        
+        snake.move(nextMove);
+    }
 
     public void printSnake(){
         System.out.println(snake);

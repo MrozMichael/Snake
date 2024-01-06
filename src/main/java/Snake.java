@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Snake {
-    private ArrayList<int[]> body; //each sublist a body part containing (y, x);
+    private ArrayList<int[]> body; //each sublist a body part containing (x, y);
     private final int[] node = {0, 0};
     private String direction;
     public Snake(int[] startingPos, String startingDir) {
@@ -26,26 +26,10 @@ public class Snake {
         return body.get(0);
     }
 
-    public void move(int bodyPartIndex){
-        int currentX = body.get(bodyPartIndex)[1];
-        int currentY = body.get(bodyPartIndex)[0];
-        switch(direction){
-            //[x][y] TODO: add restrictions in game class to avoid moving off board
-            case "up":
-                body.get(bodyPartIndex)[0] = currentY + 1;
-                return;
-            case "down":
-                body.get(bodyPartIndex)[0] = currentY -1;
-                return;
-            case "right":
-                body.get(bodyPartIndex)[1] = currentX + 1;
-                return;
-            case "left":
-                body.get(bodyPartIndex)[1] = currentX - 1;
-                return;
-            default: return;
+    public void move(int[] position){
+        body.add(0, position);
+        body.remove(body.size()-1);
         }
-    }
 
     public String toString(){
         String output = "Snake has body parts at:\n";
