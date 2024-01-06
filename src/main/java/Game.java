@@ -18,7 +18,7 @@ public class Game {
         this.scanner = new Scanner(System.in);
         this.snake = new Snake(startingPos, startingDir);
         this.board = new String[height][width];
-        initialzeBoard();
+        initializeBoard();
     }
     public void render(){
         String border = "+";
@@ -37,7 +37,7 @@ public class Game {
         System.out.println(border);
     }
 
-    public void initialzeBoard(){
+    public void initializeBoard(){
         for (String[] row: board){
             Arrays.fill(row, " ");
         }
@@ -52,8 +52,41 @@ public class Game {
         board[y][x] = "0";
     }
     public void moveSnake(){
-        int[] nextMove = new int[2];
-        
+        int[] nextMove = new int[2]; //must be equal to head + dx/dy
+        int[] head = snake.getHead();
+        String defaultDirection = snake.getDirection();
+        String userInput = "placeholder";
+        String nextDirection = "";
+        while (!userInput.isEmpty()){
+            userInput = scanner.nextLine();
+            if ("wasd".contains(userInput.toLowerCase().trim())){
+                nextDirection = userInput;
+            }
+        }
+        if (nextDirection.isEmpty()){
+            nextDirection = defaultDirection.toLowerCase();
+        }
+        switch(nextDirection.toLowerCase().trim()){
+            case "up":
+                nextMove[0] = head[0];
+                nextMove[1] = head[1] + 1;
+                break;
+            case "down":
+                nextMove[0] = head[0];
+                nextMove[1] = head[1] -1;
+                break;
+            case "left":
+                nextMove[0] = head[0] -1;
+                nextMove[1] = head[1];
+                break;
+            case "right":
+                nextMove[0] = head[0] +1;
+                nextMove[1] = head[1];
+                break;
+            default:
+                break;
+        }
+        //todo check to make sure nextMove[x][y] doesnt go out of bounds
         snake.move(nextMove);
     }
 

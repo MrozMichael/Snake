@@ -22,11 +22,18 @@ public class Snake {
         this.direction = direction.toLowerCase();
     }
 
+    public String getDirection(){
+        return direction;
+    }
+
     public int[] getHead(){
         return body.get(0);
     }
 
     public void move(int[] position){
+        int[] head = getHead();
+        int[] newHead = new int[2];
+
         body.add(0, position);
         body.remove(body.size()-1);
         }
