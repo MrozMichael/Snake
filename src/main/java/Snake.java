@@ -31,13 +31,13 @@ public class Snake {
     }
 
     public void move(int[] position){
-        int[] head = getHead();
-        int[] newHead = new int[2];
-
-        body.add(0, position);
+        body.add(0, position); //new head = (x +dx, y+dy);
         body.remove(body.size()-1);
         }
 
+    public int getSize(){
+        return body.size();
+    }
     public String toString(){
         String output = "Snake has body parts at:\n";
         for(int[] node : body){

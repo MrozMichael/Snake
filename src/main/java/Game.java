@@ -54,19 +54,8 @@ public class Game {
     public void moveSnake(){
         int[] nextMove = new int[2]; //must be equal to head + dx/dy
         int[] head = snake.getHead();
-        String defaultDirection = snake.getDirection();
-        String userInput = "placeholder";
-        String nextDirection = "";
-        while (!userInput.isEmpty()){
-            userInput = scanner.nextLine();
-            if ("wasd".contains(userInput.toLowerCase().trim())){
-                nextDirection = userInput;
-            }
-        }
-        if (nextDirection.isEmpty()){
-            nextDirection = defaultDirection.toLowerCase();
-        }
-        switch(nextDirection.toLowerCase().trim()){
+        String nextDirection = getMoveInput();
+        switch(nextDirection){
             case "up":
                 nextMove[0] = head[0];
                 nextMove[1] = head[1] + 1;
@@ -88,6 +77,46 @@ public class Game {
         }
         //todo check to make sure nextMove[x][y] doesnt go out of bounds
         snake.move(nextMove);
+        int[] newHead = snake.getHead();
+        System.out.println("Previous head was at: ("+head[0] +", "+head[1]+")");
+        System.out.println("After moving: " +nextDirection);
+        System.out.println("New head is at: ("+newHead[0] +", "+newHead[1]+")");
+        updateBoard(head, newHead);
+        //todo need board to update to show snake's new position
+        render();
+    }
+
+    public void updateBoard(int[] oldHead, int[] newHead){
+        //board is [y][x];
+        if (snake.getSize() == 1) {
+            board[oldHead[1]][oldHead[0]] = " ";
+        } else {
+            board[oldHead[1]][oldHead[0]] = "0";
+        }
+        board[newHead[1]][newHead[0]] = "X";
+    }
+    public String getMoveInput(){
+        String nextMove;
+        String defaultDirection = snake.getDirection();
+        String userInput = scanner.nextLine().toLowerCase().trim();
+        switch(userInput){
+            case "w":
+                nextMove = "up";
+                break;
+            case "a":
+                nextMove = "left";
+                break;
+            case "s":
+                nextMove = "down";
+                break;
+            case "d":
+                nextMove = "right";
+                break;
+            default:
+                nextMove = defaultDirection;
+                break;
+        }
+        return nextMove;
     }
 
     public void printSnake(){
