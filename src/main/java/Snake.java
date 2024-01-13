@@ -31,6 +31,7 @@ public class Snake {
     }
 
     public void move(int[] position){
+        //System.out.println("Inside snake.move(), position being added is: (" + position[0]+", " + position[1] +")" );
         body.add(0, position); //new head = (x +dx, y+dy);
         body.remove(body.size()-1);
         }

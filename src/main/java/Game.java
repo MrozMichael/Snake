@@ -55,40 +55,23 @@ public class Game {
         int[] nextMove = new int[2]; //must be equal to head + dx/dy by end of fn
         int[] head = snake.getHead();
         String nextDirection = getMoveInput();
-        switch(nextDirection){
-            case "up":
-                if (upPossible()) {
-                  nextMove[0] = head[0];
-                  nextMove[1] = head[1] + 1;
-                }
-                break;
-            case "down":
-                if (downPossible()) {
-                    nextMove[0] = head[0];
-                    nextMove[1] = head[1] - 1;
-                }
-                break;
-            case "left":
-                if(leftPossible()) {
-                    nextMove[0] = head[0] - 1;
-                    nextMove[1] = head[1];
-                }
-                else {
-                    System.out.println("Cant go further left!");
-                }
-                break;
-            case "right":
-                if (rightPossible()) {
-                    nextMove[0] = head[0] + 1;
-                    nextMove[1] = head[1];
-                }
-                break;
-            default:
-                nextMove[0] = head[0];
-                nextMove[1] = head[1];
-                break;
+        if (nextDirection.equals("up") && upPossible()){
+            nextMove[0] = head[0];
+            nextMove[1] = head[1] + 1;
+        } else if (nextDirection.equals("down") && downPossible()){
+            nextMove[0] = head[0];
+            nextMove[1] = head[1] - 1;
+        } else if (nextDirection.equals("left") && leftPossible()) {
+            nextMove[0] = head[0] - 1;
+            nextMove[1] = head[1];
+        } else if (nextDirection.equals("right") && rightPossible() ) {
+            nextMove[0] = head[0] + 1;
+            nextMove[1] = head[1];
+        } else {
+            nextMove[0] = head[0];
+            nextMove[1] = head[1];
         }
-        //todo check to make sure nextMove[x][y] doesnt go out of bounds
+        //todo fix head resetting to (0, 0) on out of bounds
         snake.move(nextMove);
         snake.setDirection(nextDirection);
         int[] newHead = snake.getHead();
@@ -96,7 +79,6 @@ public class Game {
         System.out.println("After moving: " +nextDirection);
         System.out.println("New head is at: ("+newHead[0] +", "+newHead[1]+")");
         updateBoard(head, newHead);
-        //todo need board to update to show snake's new position
         render();
     }
 
@@ -148,6 +130,7 @@ public class Game {
     public boolean downPossible(){
         return snake.getHead()[1] != 0;
     }
+
 
     public void printSnake(){
         System.out.println(snake);
