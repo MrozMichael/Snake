@@ -32,7 +32,7 @@ public class Game {
             for (int j = 0; j < width; j++){
                 System.out.print(board[i][j]);
             }
-            System.out.println("|\n");
+            System.out.println("|");
         }
         System.out.println(border);
     }
@@ -52,6 +52,7 @@ public class Game {
         board[y][x] = "0";
     }
     public void moveSnake(){
+        //todo: end game if head moves into a body part
         int[] nextMove = new int[2]; //must be equal to head + dx/dy by end of fn
         int[] head = snake.getHead();
         String nextDirection = getMoveInput();
@@ -79,9 +80,16 @@ public class Game {
         snake.move(nextMove);
         snake.setDirection(nextDirection);
         int[] newHead = snake.getHead();
-        System.out.println("Previous head was at: ("+head[0] +", "+head[1]+")");
-        System.out.println("After moving: " +nextDirection);
-        System.out.println("New head is at: ("+newHead[0] +", "+newHead[1]+")");
+        /*
+        * FOR DEBUGGING:
+        * System.out.println("Previous head was at: ("+head[0] +", "+head[1]+")");
+        * System.out.println("After moving: " +nextDirection);
+        * System.out.println("New head is at: ("+newHead[0] +", "+newHead[1]+")");
+        */
+        if (gameOver(newHead)){
+            System.out.println("Game over!");
+            System.exit(1);
+        }
         updateBoard(head, newHead);
         render();
     }
@@ -147,7 +155,11 @@ public class Game {
         return snake.getHead()[1] != 0;
     }
 
-
+    public boolean gameOver(int[] head){
+        int row = head[1];
+        int col = head[0];
+        return !board[row][col].equals(" ");
+    }
     public void printSnake(){
         System.out.println(snake);
     }
