@@ -52,31 +52,45 @@ public class Game {
         board[y][x] = "0";
     }
     public void moveSnake(){
-        int[] nextMove = new int[2]; //must be equal to head + dx/dy
+        int[] nextMove = new int[2]; //must be equal to head + dx/dy by end of fn
         int[] head = snake.getHead();
         String nextDirection = getMoveInput();
         switch(nextDirection){
             case "up":
-                nextMove[0] = head[0];
-                nextMove[1] = head[1] + 1;
+                if (upPossible()) {
+                  nextMove[0] = head[0];
+                  nextMove[1] = head[1] + 1;
+                }
                 break;
             case "down":
-                nextMove[0] = head[0];
-                nextMove[1] = head[1] -1;
+                if (downPossible()) {
+                    nextMove[0] = head[0];
+                    nextMove[1] = head[1] - 1;
+                }
                 break;
             case "left":
-                nextMove[0] = head[0] -1;
-                nextMove[1] = head[1];
+                if(leftPossible()) {
+                    nextMove[0] = head[0] - 1;
+                    nextMove[1] = head[1];
+                }
+                else {
+                    System.out.println("Cant go further left!");
+                }
                 break;
             case "right":
-                nextMove[0] = head[0] +1;
-                nextMove[1] = head[1];
+                if (rightPossible()) {
+                    nextMove[0] = head[0] + 1;
+                    nextMove[1] = head[1];
+                }
                 break;
             default:
+                nextMove[0] = head[0];
+                nextMove[1] = head[1];
                 break;
         }
         //todo check to make sure nextMove[x][y] doesnt go out of bounds
         snake.move(nextMove);
+        snake.setDirection(nextDirection);
         int[] newHead = snake.getHead();
         System.out.println("Previous head was at: ("+head[0] +", "+head[1]+")");
         System.out.println("After moving: " +nextDirection);
@@ -117,6 +131,22 @@ public class Game {
                 break;
         }
         return nextMove;
+    }
+
+    public boolean rightPossible(){
+     return snake.getHead()[0] != width -1;
+    }
+
+    public boolean leftPossible(){
+        return snake.getHead()[0] != 0;
+    }
+
+    public boolean upPossible(){
+        return snake.getHead()[1] != height -1; // y = 0 is bottom of board; y = height-1 is top;
+    }
+
+    public boolean downPossible(){
+        return snake.getHead()[1] != 0;
     }
 
     public void printSnake(){
