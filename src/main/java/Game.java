@@ -55,6 +55,10 @@ public class Game {
         int[] nextMove = new int[2]; //must be equal to head + dx/dy by end of fn
         int[] head = snake.getHead();
         String nextDirection = getMoveInput();
+        if (illegalMove(nextDirection)){
+            System.out.println("Move was illegal!");
+            return;
+        }
         if (nextDirection.equals("up") && upPossible()){
             nextMove[0] = head[0];
             nextMove[1] = head[1] + 1;
@@ -71,7 +75,7 @@ public class Game {
             nextMove[0] = head[0];
             nextMove[1] = head[1];
         }
-        //todo fix head resetting to (0, 0) on out of bounds
+
         snake.move(nextMove);
         snake.setDirection(nextDirection);
         int[] newHead = snake.getHead();
@@ -113,6 +117,18 @@ public class Game {
                 break;
         }
         return nextMove;
+    }
+
+    public boolean illegalMove(String nextDir) {
+        if (snake.getSize() == 1){
+            return false;
+        }
+        String currentDir = snake.getDirection();
+        //move is illegal if ANY of these are true
+        return nextDir.equals("up") && currentDir.equals("down")
+                || nextDir.equals("down") && currentDir.equals("up")
+                || nextDir.equals("left") && currentDir.equals("right")
+                || nextDir.equals("right") && currentDir.equals("left");
     }
 
     public boolean rightPossible(){
